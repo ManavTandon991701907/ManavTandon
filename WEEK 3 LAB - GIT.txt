@@ -1,0 +1,176 @@
+* Objective:
+This assignment will help students understand basic Git operations using PowerShell in Visual Studio Code (VS Code). Students will practice staging changes, committing with amendments, resetting commits, and reverting commits using Git commands in PowerShell.
+
+* Requirements:
+1. Visual Studio Code (VS Code)
+2. Git
+
+* Instructions:
+Setting Up Your Environment:
+   - Ensure you have Git installed on your machine -> Download from https://git-scm.com/download/win
+   - Open VS Code and ensure the PowerShell extension is installed -> Verify with $PSVersionTable
+   - Initialize a Git repository in a new or existing project folder -> Reload the vscode to integrate it with GIT after you have installed GIT on your windows machine.
+
+* Git Operations:
+
+1. Amending a Commit:
+   - Create a new file `example.txt` with some initial content.
+   - Stage and commit this file.
+   - Modify the content of `example.txt` and amend the previous commit without changing the commit message.
+
+   # On POWERSHELL terminal
+   
+   # Navigate to Your Project Directory:
+	Open PowerShell and navigate to the directory where you want to create a Git repository.
+
+	cd "C:\Users\hp\Desktop\Sheridan College\Powershell\Week 3"
+	
+   # Initialize the Repository:
+	Run the following command to initialize a new Git repository in that directory. This command creates a new subdirectory named .git that contains all of your necessary repository files — a Git repository skeleton:
+	
+	git init
+	
+	   ---- ERROR ----
+   
+	git: The term 'git' is not recognized as a name of a cmdlet, function, script file, or executable program.
+	Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+
+	Add Git to PATH
+	
+	[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\Git\bin", [EnvironmentVariableTarget]::User)
+	
+	Verify by - $env:Path -split ';'
+	
+	Try to check "git --version"
+	
+	---------------------
+	Once the error is resolved
+	
+   # Create a new file and add initial content
+   
+   "Initial content" | Out-File -FilePath "./example.txt"
+   
+   # Check the content 
+   
+   "Get-Content .\example.txt"
+	Initial content
+	
+   # Stage and commit the new file
+   
+   git add example.txt
+   
+   git commit -m "Initial commit with example.txt"
+   
+   # Modify the file content
+   
+   "Modified content" | Out-File -FilePath "./example.txt"
+   
+   # Check the content 
+   
+   "Get-Content .\example.txt"
+	Modified content
+	
+   # Stage the changes
+   
+   git add example.txt
+
+   # Amend the previous commit without changing the commit message
+   
+   git commit --amend --no-edit
+   
+
+2. Changing a Commit Message:
+   - Amend the previous commit to change the commit message.
+
+   # On POWERSHELL terminal
+   # Amend the previous commit with a new commit message
+   
+   git commit --amend -m "Updated commit message"
+   
+
+3. Unstaging Changes from a Commit:
+   - Stage multiple files and commit them.
+   - Unstage one file using a soft reset and remove it from the staged changes.
+
+   # On POWERSHELL terminal
+   # Create two new files
+   
+   "Content for file 1" | Out-File -FilePath "./file1.txt"
+   "Content for file 2" | Out-File -FilePath "./file2.txt"
+
+   # Stage and commit both files
+   
+   git add .
+   git commit -m "Added file1.txt and file2.txt"
+
+   # Perform a soft reset to unstage the changes
+   
+   git reset --soft HEAD~
+
+   # Unstage file2.txt
+   
+   git reset -- file2.txt
+
+   # Commit again only with file1.txt
+   
+   git add file1.txt
+   git commit -m "Added file1.txt only"
+   
+
+4. Reverting a Commit:
+   - Make a few commits and then revert one specific commit.
+
+   # On POWERSHELL terminal
+   # Create and commit a new file
+   
+   "Content to be reverted" | Out-File -FilePath "./revert.txt"
+   git add revert.txt
+   git commit -m "Commit with revert.txt"
+
+   # Get the commit hash (use git log to find it)
+   
+   $commitHash = (git log --pretty=format:"%H" -n 1)
+   
+   # Output the value of the $commitHash variable
+   
+   Write-Output $commitHash
+
+   # Display the hash value directly in the console
+   
+   $commitHash
+
+   # Revert the commit
+   
+   git revert $commitHash
+   
+   Above command opens up a window telling you what changes have been done. To exit out of that window pres esc -> :wq! -> Press Enter
+   
+   # Create a Repository on GitHub:
+   
+   Go to https://github.com and log in to your account.
+   Click on the "+" icon in the top-right corner and select "New repository".
+   Fill in the repository name, description, and other details as needed.
+   Optionally, initialize the repository with a README file, add a .gitignore file, and choose a license.
+   Click on "Create repository" to create the repository on GitHub.
+   Set Remote URL:
+   
+   # In your local repository directory, use the following command to add the remote URL of the GitHub repository. Replace <repository_url> with the URL of your GitHub repository. You can find this URL on the GitHub repository page:
+   
+   git remote add origin <repository_url>
+  
+   # Use the following command to push your local repository to GitHub. This command pushes the changes from your local master branch to the master branch of the remote repository (origin).
+   
+   git push -u origin master
+   
+   # View Repository on GitHub:
+   
+   Once the push is successful, go to your GitHub repository page in your web browser. You should see all the files and commits from your local repository reflected on GitHub.com.
+
+* Submission:
+- Each student must submit a report containing:
+
+  - Screenshots of each command executed and the output.
+  - Explanations of what each command does.
+  - References in APA format.
+
+
